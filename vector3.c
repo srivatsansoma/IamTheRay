@@ -4,6 +4,10 @@ typedef struct{
     float x,y,z;
 } Vec3;
 
+typedef struct {
+    float x, y;
+}Vec2;
+
 typedef enum{
     ADD, SUB
 } ADDORSUB;
@@ -37,4 +41,22 @@ Vec3 scalar_mul(Vec3 vec, float scalar){
 
 float vec3_mag(Vec3* vec){
     return sqrt(vec->x*vec->x + vec->y*vec->y + vec->z*vec->z);
+}
+
+Vec2 get_spherical_angles(Vec3 vec){
+    Vec2 angles;
+    angles.x = tanh(vec.y/(vec.x + 1e-4));
+    angles.y = tanh(sqrt(vec.x*vec.x + vec.y*vec.y)/(vec.z + 1e-4));
+
+    return angles;
+}
+
+//angle => [angle on x axis, angle with z axis]
+Vec3 give_new_rot_vector(float mag, Vec2 angles){
+    Vec3 vec;
+    vec.x = mag*sin(angles.y)*cos(angles.x);
+    vec.y = mag*sin(angles.y)*sin(angles.x);
+    vec.z = mag*cos(angles.y);
+
+    return vec;
 }

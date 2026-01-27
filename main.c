@@ -15,7 +15,7 @@ int main(){
     initiate_vertices(vertices, color, &tri);
 
     struct Ray3* rays_test;
-    struct Camera cam_test= {(Vec3){0,0,0}, (Vec3){0,0,0}, 100,100,100,100};
+    struct Camera cam_test= {(Vec3){0,0,0}, (Vec3){0,10,20}, 100,100,100,100};
     rays_test = initiate_camera_rays(&cam_test);
 
     for (int i = 0 ; i < 200*200; i++){
