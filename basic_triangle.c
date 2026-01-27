@@ -1,4 +1,4 @@
-#include "vector3.c"
+#include "vector3.h"
 #include <string.h>
 #include <stdbool.h>
 

@@ -1,4 +1,4 @@
-#include "ray.c"
+#include "camera.h"
 
 struct Camera{
     Vec3 position;

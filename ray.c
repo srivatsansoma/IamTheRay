@@ -1,4 +1,4 @@
-#include "basic_triangle.c"
+#include "ray.h"
 
 struct Ray3 {
     Vec3 normal;
@@ -57,4 +57,27 @@ bool reflection(struct Ray3* ray, BasicTriangle* tri, float dt, void* return_add
     memcpy(return_addr, result, sizeof(Vec3)*3);
 
     return true;
+}
+
+Vec3 point_of_intersection_raywsphere(struct Ray3* ray, struct Sphere* sphere){
+    Vec3 ray_to_center = two_vectors_addorsub(sphere->position, ray->current_point, SUB);
+    
+    float poly_a = 1;
+    float poly_b = -2*dot_product(ray->normal, ray_to_center);
+    float poly_c = vec3_mag(&ray_to_center)*vec3_mag(&ray_to_center) - sphere->radius*sphere->radius;
+
+    float poly_sqrt_discriminant = poly_b*poly_b - 4*poly_a*poly_c;
+    if (poly_sqrt_discriminant < 0) return (Vec3){};
+    poly_sqrt_discriminant = sqrt(poly_sqrt_discriminant);
+
+    float t1 = (-poly_b + poly_sqrt_discriminant)/(2*poly_a);
+    float t2 = (-poly_b - poly_sqrt_discriminant)/(2*poly_a);
+
+    Vec3 result;
+
+    if (t1<0 && t2<0) return (Vec3){};
+    if (t1<=t2) result = two_vectors_addorsub(ray->current_point, scalar_mul(ray->normal, t1), ADD);
+    else result = two_vectors_addorsub(ray->current_point, scalar_mul(ray->normal, t2), ADD);
+
+    return result;
 }
