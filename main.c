@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ray.c"
+#include "camera.c"
 
 int main(){
     Vec3 vertices[3];
@@ -14,21 +14,12 @@ int main(){
     BasicTriangle tri;
     initiate_vertices(vertices, color, &tri);
 
-    struct Ray3 test_ray;
-    initiate_ray(&test_ray, (Vec3) {0.5, 0.5, 0.5}, (Vec3) {0,0,0});
-    
-    int collided = 0;
-    Vec3 result[3] = {};
-    for (int i=0; i< 100; i ++){
-        //printf("%d",reflection(&test_ray, &tri, 0.01, result));
-        //printf("%f, %f, %f \n", test_ray.last_point.x, test_ray.last_point.y, test_ray.last_point.z);
-        printf("%f %f %f %f \n", test_ray.color[0], test_ray.color[1], test_ray.color[2],  test_ray.color[3]);
+    struct Ray3* rays_test;
+    struct Camera cam_test= {(Vec3){0,0,0}, (Vec3){0,0,0}, 100,100,100,100};
+    rays_test = initiate_camera_rays(&cam_test);
 
-        if (reflection(&test_ray, &tri, 0.01, result)){
-            test_ray.current_point = result[2];
-            test_ray.normal = result[1];
-        }
+    for (int i = 0 ; i < 200*200; i++){
+        struct Ray3 *test_ray = rays_test + i;
+        printf("%f, %f, %f \n", test_ray->normal.x, test_ray->normal.y, test_ray->normal.z);
     }
-
-    return 0;
 }
