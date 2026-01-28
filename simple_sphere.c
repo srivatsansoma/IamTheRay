@@ -5,7 +5,7 @@ struct Sphere{
     float radius;
 };
 
-Vec4 return_color(Vec2 angle){
+Vec4 return_color(struct Sphere* sphere ,Vec2 angle){
     return (Vec4) {0,255,0,1};
 }
 

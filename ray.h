@@ -4,6 +4,7 @@
 #include "basic_triangle.h"
 #include "simple_sphere.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 struct Ray3 {
     Vec3 normal;

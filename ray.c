@@ -62,22 +62,28 @@ bool reflection(struct Ray3* ray, BasicTriangle* tri, float dt, void* return_add
 Vec3 point_of_intersection_raywsphere(struct Ray3* ray, struct Sphere* sphere){
     Vec3 ray_to_center = two_vectors_addorsub(sphere->position, ray->current_point, SUB);
     
-    float poly_a = 1;
+    float poly_a = dot_product(ray->normal, ray->normal);
     float poly_b = -2*dot_product(ray->normal, ray_to_center);
-    float poly_c = vec3_mag(&ray_to_center)*vec3_mag(&ray_to_center) - sphere->radius*sphere->radius;
+    float poly_c = dot_product(ray_to_center, ray_to_center) - sphere->radius*sphere->radius;
 
     float poly_sqrt_discriminant = poly_b*poly_b - 4*poly_a*poly_c;
-    if (poly_sqrt_discriminant < 0) return (Vec3){};
+    if (poly_sqrt_discriminant < 0) return (Vec3){0,0,0};
     poly_sqrt_discriminant = sqrt(poly_sqrt_discriminant);
 
     float t1 = (-poly_b + poly_sqrt_discriminant)/(2*poly_a);
     float t2 = (-poly_b - poly_sqrt_discriminant)/(2*poly_a);
 
-    Vec3 result;
+    float t;
+    if (t1 > 0 && t2 > 0)
+        t = (t1 < t2) ? t1 : t2;
+    else if (t1 > 0)
+        t = t1;
+    else if (t2 > 0)
+        t = t2;
+    else
+        return (Vec3){0,0,0};
 
-    if (t1<0 && t2<0) return (Vec3){};
-    if (t1<=t2) result = two_vectors_addorsub(ray->current_point, scalar_mul(ray->normal, t1), ADD);
-    else result = two_vectors_addorsub(ray->current_point, scalar_mul(ray->normal, t2), ADD);
-
-    return result;
+    return two_vectors_addorsub(ray->current_point,
+                                scalar_mul(ray->normal, t),
+                                ADD);
 }

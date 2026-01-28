@@ -18,8 +18,8 @@ void initiate_vertices(Vec3 vertices[3], float color[4], BasicTriangle* tri){
     Vec3 ab = two_vectors_addorsub(tri->vertices[1], tri->vertices[0], SUB);
     Vec3 ac = two_vectors_addorsub(tri->vertices[2], tri->vertices[0], SUB);
 
-    tri->normal = cross_product(&ab, &ac);
-    tri->normal = scalar_mul(tri->normal, 1/vec3_mag(&tri->normal));
+    tri->normal = cross_product(ab, ac);
+    tri->normal = scalar_mul(tri->normal, 1/vec3_mag(tri->normal));
 
     memcpy(tri->plane_coeff, &tri->normal, 3*sizeof(float));
     tri->plane_coeff[3] = -(
