@@ -28,9 +28,10 @@ struct Ray3* initiate_camera_rays(struct Camera* camera){
             // printf("%f %f %f \n", ray_normal.x, ray_normal.y, ray_normal.z);
 
             float ray_normal_mag = vec3_mag(ray_normal);
-            ray_normal = ray_normal_mag>0 ? scalar_mul(ray_normal, 1/(vec3_mag(ray_normal))) : (Vec3) {10,0,0};
+            Vec3 ray_normal_normalized = ray_normal_mag>0 ? scalar_mul(ray_normal, 1/(vec3_mag(ray_normal))) : (Vec3) {10,0,0};
             //printf("%f %f %f \n", ray_normal.x, ray_normal.y, ray_normal.z);
-            initiate_ray(&rays[(i + camera->halfres_x)*camera->halfres_y*2 + (j + camera->halfres_y)], ray_normal, camera->position);
+            initiate_ray(&rays[(i + camera->halfres_x)*camera->halfres_y*2 + (j + camera->halfres_y)], ray_normal_normalized, camera->position);
+            rays[(i + camera->halfres_x)*camera->halfres_y*2 + (j + camera->halfres_y)].current_point = ray_normal;
         }
     }
 

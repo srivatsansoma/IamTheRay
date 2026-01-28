@@ -20,8 +20,8 @@ int main(){
     initiate_vertices(vertices, color, &tri);
 
     struct Ray3* rays_test;
-    struct Camera cam_test= {(Vec3){0,0,-10}, (Vec3){0,0, 20}, 100, 100,HALFRES_X, HALFRES_Y};
-    struct Sphere sphere_test = {(Vec3) {0,0,0}, 5};
+    struct Camera cam_test= {(Vec3){0,0,-10}, (Vec3){0,0,2}, 100, 100,HALFRES_X, HALFRES_Y};
+    struct Sphere sphere_test = {(Vec3) {0,0,0}, 10};
     rays_test = initiate_camera_rays(&cam_test);
 
     for (int i = 0 ; i < 4*HALFRES_X*HALFRES_Y; i++){
@@ -30,7 +30,7 @@ int main(){
 
         Vec3 collison_point = point_of_intersection_raywsphere(test_ray, &sphere_test);
 
-        printf("%d %f %f %f \n" , i, collison_point.x, collison_point.y, collison_point.z);
+        //printf("%d %f %f %f \n" , i, collison_point.x, collison_point.y, collison_point.z);
 
         // printf(
         //     "Ray %d: O=(%f,%f,%f) D=(%f,%f,%f)\n",
